@@ -6,4 +6,8 @@ function moveHandler(req, res) {
     res.json(move);     //devuelve el resultado
 }
 
-module.exports = { moveHandler };
+function healthHandler(req, res) {
+    res.json({ "status": "ok" })
+}
+
+module.exports = { moveHandler, healthHandler };
