@@ -38,15 +38,19 @@ El proyecto está separado en tres partes:
 
 ### `src/server.js`
 
-Se encarga de iniciar el servidor Express, configurar `express.json()` y definir `POST /move`.
+Se encarga de iniciar el servidor Express, configurar `express.json()` y definir las rutas `POST /move` y `GET /health`.
 
 También utiliza la variable de entorno `PORT` para configurar el puerto. Si no se indica, utiliza el puerto `3000`.
 
+Además, contiene la validación de los datos recibidos y el manejo de respuestas `404` y `500`.
+
 ### `src/handler.js`
 
-Recibe el estado enviado en la petición mediante `req.body`.
+`moveHandler` recibe el estado enviado en la petición mediante `req.body`.
 
 Luego llama a la función `chooseMove(state)` de `strategy.js` y devuelve el resultado en formato JSON.
+
+También contiene `healthHandler`, que responde al endpoint `/health` indicando que el servidor está funcionando correctamente.
 
 ### `src/strategy.js`
 
@@ -172,6 +176,112 @@ Resultado esperado:
   "B2": "E"
 }
 ```
+
+## Pruebas TP5
+
+### 1. GET `/health`
+
+Comando:
+
+```bash
+curl -i http://localhost:3000/health
+```
+
+Resultado esperado:
+
+```text
+HTTP/1.1 200 OK
+```
+
+Respuesta:
+
+```json
+{
+  "status": "ok"
+}
+```
+
+### 2. POST `/move` válido
+
+Comando:
+
+```bash
+curl -X POST http://localhost:3000/move -H "Content-Type: application/json" -d @fixtures/state1.json
+```
+
+Resultado esperado:
+
+```text
+HTTP/1.1 200 OK
+```
+
+Respuesta:
+
+```json
+{
+  "A1": "S"
+}
+```
+
+### 3. POST `/move` con datos incompletos
+
+En este caso se envía un estado sin `jugador`.
+
+Comando:
+
+```bash
+curl -i -X POST http://localhost:3000/move -H "Content-Type: application/json" -d '{"dado":3,"tablero":[]}'
+```
+
+Resultado esperado:
+
+```text
+HTTP/1.1 400 Bad Request
+```
+
+Respuesta:
+
+```text
+"Error: Falta jugador"
+```
+
+### 4. Ruta inexistente
+
+Comando:
+
+```bash
+curl -i http://localhost:3000/una-ruta-que-no-existe
+```
+
+Resultado esperado:
+
+```text
+HTTP/1.1 404 Not Found
+```
+
+Respuesta:
+
+```text
+"Error 404"
+```
+
+### 5. Error interno
+
+Se probó el manejo de errores internos durante el desarrollo del TP.
+
+Resultado esperado:
+
+```text
+HTTP/1.1 500 Internal Server Error
+```
+
+Respuesta:
+
+```text
+"Error 500"
+```
+
+Además, el error se registra en la consola del servidor mediante `console.error()`.
 
 ## Scripts disponibles
 
