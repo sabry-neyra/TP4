@@ -10,4 +10,11 @@ function healthHandler(req, res) {
     res.json({ "status": "ok" })
 }
 
-module.exports = { moveHandler, healthHandler };
+function profileHandler(req, res) {
+    res.json({
+        name: "Sabry Neyra",
+        colors: ["#87CEEB", "#000000", "#87CEEB"]
+    });
+}
+
+module.exports = { moveHandler, healthHandler, profileHandler };

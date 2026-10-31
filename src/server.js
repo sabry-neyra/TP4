@@ -1,5 +1,5 @@
 const express = require("express");
-const { moveHandler, healthHandler } = require("./handler");
+const { moveHandler, healthHandler, profileHandler } = require("./handler");
 const app = express();
 
 app.use(express.json());
@@ -25,6 +25,8 @@ app.post("/move", validarMove, moveHandler);
 
 app.get("/health", healthHandler);
 
+app.get("/profile", profileHandler);
+
 app.use((req, res) => {
     res.status(404).json("Error 404");
 });
@@ -36,8 +38,12 @@ app.use((err, req, res, next) => {
 });
 
 
-const PORT = process.env.PORT || 3000;
+module.exports = app;
 
-app.listen(PORT, () => {
-    console.log(`Servidor funcionando en http://localhost:${PORT}`);
-});
+if (require.main === module) {
+    const PORT = process.env.PORT || 3007;
+
+    app.listen(PORT, () => {
+        console.log(`Servidor funcionando en http://localhost:${PORT}`);
+    });
+}
