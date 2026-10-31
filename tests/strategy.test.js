@@ -57,4 +57,16 @@ test("si el dado es 3, las piezas van al sur", () => {
     });
 });
 
+test("el bot debe devolver un movimiento cuando tiene una pieza disponible", () => {
+    const state = {
+        jugador: "A",
+        dado: 3,
+        tablero: [
+            ["", "", ""],
+            ["", "A1", ""],
+            ["", "", ""]
+        ]
+    };
 
+    expect(chooseMove(state)).not.toEqual({});
+});
