@@ -118,3 +118,35 @@ test("el bot mueve las piezas del jugador B", () => {
         B1: "N"
     });
 });
+
+test("el bot no devuelve movimientos si el jugador no tiene piezas", () => {
+    const state = {
+        jugador: "A",
+        dado: 2,
+        tablero: [
+            ["B1", "N", ""],
+            ["", "", ""],
+            ["", "", ""]
+        ]
+    };
+
+    expect(chooseMove(state)).toEqual({});
+});
+
+test("la estrategia no modifica el estado original", () => {
+    const state = {
+        jugador: "A",
+        dado: 2,
+        tablero: [
+            ["A1", "N", ""],
+            ["", "B1", ""],
+            ["", "", ""]
+        ]
+    };
+
+    const copia = JSON.parse(JSON.stringify(state));
+
+    chooseMove(state);
+
+    expect(state).toEqual(copia);
+});
