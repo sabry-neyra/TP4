@@ -29,3 +29,21 @@ test("el endpoint profile devuelve el nombre y los colores del bot", async () =>
         colors: ["#87CEEB", "#000000", "#87CEEB"]
     });
 });
+
+test("el servidor rechaza una solicitud sin jugador", async () => {
+    const state = {
+        dado: 1,
+        tablero: [
+            ["A1", "", ""],
+            ["", "", ""],
+            ["", "", ""]
+        ]
+    };
+
+    const response = await request(app)
+        .post("/move")
+        .send(state);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toBe("Error: Falta jugador");
+});
