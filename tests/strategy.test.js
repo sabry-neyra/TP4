@@ -184,3 +184,26 @@ test("el bot genera movimientos reproducibles con una semilla fija", () => {
 
     expect(chooseMove(state)).toEqual({ A1: "N" });
 });
+test("el bot funciona con otra semilla fija", () => {
+    let semilla = 54321;
+
+    function generarNumero() {
+        semilla = (semilla * 1103515245 + 12345) % 2147483648;
+        return semilla;
+    }
+
+    const tablero = Array.from({ length: 10 }, () => Array(10).fill(""));
+
+    const fila = generarNumero() % 10;
+    const columna = generarNumero() % 10;
+
+    tablero[fila][columna] = "B1";
+
+    const state = {
+        jugador: "B",
+        dado: 2,
+        tablero: tablero
+    };
+
+    expect(chooseMove(state)).toEqual({ B1: "E" });
+});
