@@ -70,3 +70,19 @@ test("el bot debe devolver un movimiento cuando tiene una pieza disponible", () 
 
     expect(chooseMove(state)).not.toEqual({});
 });
+
+test("el bot no mueve las piezas del rival", () => {
+    const state = {
+        jugador: "A",
+        dado: 3,
+        tablero: [
+            ["A1", "B1", ""],
+            ["", "", ""],
+            ["", "", ""]
+        ]
+    };
+
+    expect(chooseMove(state)).toEqual({
+        A1: "S"
+    });
+});
