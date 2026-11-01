@@ -47,3 +47,25 @@ test("el servidor rechaza una solicitud sin jugador", async () => {
     expect(response.status).toBe(400);
     expect(response.body).toBe("Error: Falta jugador");
 });
+
+test("el servidor devuelve los movimientos de varias piezas", async () => {
+    const state = {
+        jugador: "A",
+        dado: 2,
+        tablero: [
+            ["A1", "A2", ""],
+            ["", "", ""],
+            ["", "", ""]
+        ]
+    };
+
+    const response = await request(app)
+        .post("/move")
+        .send(state);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+        A1: "E",
+        A2: "E"
+    });
+});
