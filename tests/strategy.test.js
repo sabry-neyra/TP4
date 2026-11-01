@@ -150,3 +150,37 @@ test("la estrategia no modifica el estado original", () => {
 
     expect(state).toEqual(copia);
 });
+test("el bot genera movimientos reproducibles con una semilla fija", () => {
+    let semilla = 12345;
+
+    function generarNumero() {
+        semilla = (semilla * 1103515245 + 12345) % 2147483648;
+        return semilla;
+    }
+
+    const tablero = [
+        ["", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", ""]
+    ];
+
+    const fila = generarNumero() % 10;
+    const columna = generarNumero() % 10;
+
+    tablero[fila][columna] = "A1";
+
+    const state = {
+        jugador: "A",
+        dado: 1,
+        tablero: tablero
+    };
+
+    expect(chooseMove(state)).toEqual({ A1: "N" });
+});
