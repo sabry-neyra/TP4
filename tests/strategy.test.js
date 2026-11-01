@@ -86,3 +86,19 @@ test("el bot no mueve las piezas del rival", () => {
         A1: "S"
     });
 });
+
+test("el bot no mueve las casas neutrales", () => {
+    const state = {
+        jugador: "A",
+        dado: 2,
+        tablero: [
+            ["A1", "N", ""],
+            ["", "", ""],
+            ["", "", ""]
+        ]
+    };
+
+    expect(chooseMove(state)).toEqual({
+        A1: "E"
+    });
+});
