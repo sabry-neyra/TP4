@@ -297,3 +297,54 @@ El proyecto utiliza Git para registrar los cambios de forma incremental.
 
 El repositorio contiene commits correspondientes a las distintas etapas del desarrollo del bot.
 
+
+## Evidencias TP7
+
+En este trabajo se agregaron pruebas automatizadas con Jest para comprobar el funcionamiento del bot y detectar posibles problemas.
+
+### Pruebas realizadas
+
+Se agregaron pruebas para verificar:
+
+- Que los movimientos correspondan al valor del dado.
+- Que el bot pueda mover varias piezas del mismo jugador.
+- Que no mueva las piezas del rival.
+- Que no mueva las casas neutrales.
+- Que funcione correctamente con los jugadores A y B.
+- Que no devuelva movimientos cuando el jugador no tiene piezas.
+- Que la estrategia no modifique el estado original.
+- Que funcione con semillas fijas (12345 y 54321).
+- Que el servidor rechace solicitudes sin jugador.
+- Que el servidor rechace jugadores inválidos.
+- Que funcionen correctamente los endpoints y la integración entre el servidor y la estrategia.
+
+### Mejora realizada
+
+Se agregó una prueba para comprobar qué sucedía cuando se enviaba un jugador inválido.
+
+En la primera ejecución, la prueba falló porque el servidor aceptaba al jugador `"C"` y devolvía un código 200, cuando debía rechazarlo con un código 400.
+
+Para solucionarlo, se modificó la validación del servidor. Ahora solamente acepta los jugadores `"A"` y `"B"`. También diferencia entre cuando falta el jugador y cuando se envía un valor inválido.
+
+### Resultado final
+
+Después de realizar la corrección, se volvió a ejecutar `npm test`.
+
+- 2 suites de pruebas aprobadas.
+- 17 pruebas aprobadas.
+- 0 pruebas fallidas.
+
+### Capturas de evidencia
+
+**1. Prueba roja:**
+
+![Prueba roja](evidencias-tp7/01-prueba-roja-jugador-invalido.png)
+
+**2. Corrección de la validación:**
+
+![Corrección](evidencias-tp7/02-correccion-validacion-jugador.png)
+
+**3. Prueba verde:**
+
+![Prueba verde](evidencias-tp7/03-prueba-verde-17-tests-aprobados.png)
+
