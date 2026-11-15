@@ -23,6 +23,10 @@ function validarMove(req, res, next) {
         return res.status(400).json("Error: Falta el tablero");
     }
 
+    if (!Array.isArray(req.body.tablero)) {
+    return res.status(400).json("Error: Tablero inválido");
+    }
+
     next();
 }
 

@@ -86,3 +86,18 @@ test("el servidor rechaza un jugador inválido", async () => {
 
     expect(response.status).toBe(400);
 });
+
+
+test("el servidor rechaza un tablero inválido", async () => {
+    const state = {
+        jugador: "A",
+        dado: 2,
+        tablero: "hola"
+    };
+
+    const response = await request(app)
+        .post("/move")
+        .send(state);
+
+    expect(response.status).toBe(400);
+});
