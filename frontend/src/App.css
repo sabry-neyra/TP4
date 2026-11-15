@@ -1,0 +1,36 @@
+
+main {
+  text-align: center;
+  padding: 30px;
+}
+
+h1 {
+  color: #333;
+}
+
+.tablero {
+  display: grid;
+  grid-template-columns: repeat(10, 45px);
+  gap: 3px;
+  justify-content: center;
+  margin: 30px auto;
+}
+
+.casilla {
+  width: 45px;
+  height: 45px;
+  border: 1px solid #777;
+  background-color: #eeeeee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.jugador-a {
+  background-color: lightblue;
+}
+
+.jugador-b {
+  background-color: lightcoral;
+}
