@@ -69,3 +69,20 @@ test("el servidor devuelve los movimientos de varias piezas", async () => {
         A2: "E"
     });
 });
+test("el servidor rechaza un jugador inválido", async () => {
+    const state = {
+        jugador: "C",
+        dado: 1,
+        tablero: [
+            ["C1", "", ""],
+            ["", "", ""],
+            ["", "", ""]
+        ]
+    };
+
+    const response = await request(app)
+        .post("/move")
+        .send(state);
+
+    expect(response.status).toBe(400);
+});

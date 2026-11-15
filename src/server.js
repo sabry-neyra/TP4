@@ -6,8 +6,13 @@ app.use(express.json());
 
 function validarMove(req, res, next) {
 
+
     if (!req.body.jugador) {
         return res.status(400).json("Error: Falta jugador");
+    } 
+
+    if (req.body.jugador !== "A" && req.body.jugador !== "B") {
+        return res.status(400).json("Error: Jugador inválido");
     }
 
     if (!req.body.dado) {
