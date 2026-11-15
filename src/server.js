@@ -1,3 +1,4 @@
+
 const express = require("express");
 const { moveHandler, healthHandler, profileHandler } = require("./handler");
 const app = express();
@@ -6,10 +7,13 @@ app.use(express.json());
 
 function validarMove(req, res, next) {
 
+    if (req.body.rulesVersion !== 2) {
+        return res.status(400).json("Error: Versión de reglas incompatible");
+    }
 
     if (!req.body.jugador) {
         return res.status(400).json("Error: Falta jugador");
-    } 
+    }
 
     if (req.body.jugador !== "A" && req.body.jugador !== "B") {
         return res.status(400).json("Error: Jugador inválido");
@@ -24,7 +28,7 @@ function validarMove(req, res, next) {
     }
 
     if (!Array.isArray(req.body.tablero)) {
-    return res.status(400).json("Error: Tablero inválido");
+        return res.status(400).json("Error: Tablero inválido");
     }
 
     next();
@@ -41,11 +45,9 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res, next) => {
-    console.error(err)
-    res.status(500).json("Error 500")
-    
+    console.error(err);
+    res.status(500).json("Error 500");
 });
-
 
 module.exports = app;
 

@@ -1,8 +1,10 @@
+
 const request = require("supertest");
 const app = require("../src/server");
 
 test("el bot recibe el estado y devuelve un movimiento", async () => {
     const state = {
+        rulesVersion: 2,
         jugador: "A",
         dado: 3,
         tablero: [
@@ -32,6 +34,7 @@ test("el endpoint profile devuelve el nombre y los colores del bot", async () =>
 
 test("el servidor rechaza una solicitud sin jugador", async () => {
     const state = {
+        rulesVersion: 2,
         dado: 1,
         tablero: [
             ["A1", "", ""],
@@ -50,6 +53,7 @@ test("el servidor rechaza una solicitud sin jugador", async () => {
 
 test("el servidor devuelve los movimientos de varias piezas", async () => {
     const state = {
+        rulesVersion: 2,
         jugador: "A",
         dado: 2,
         tablero: [
@@ -69,8 +73,10 @@ test("el servidor devuelve los movimientos de varias piezas", async () => {
         A2: "E"
     });
 });
+
 test("el servidor rechaza un jugador inválido", async () => {
     const state = {
+        rulesVersion: 2,
         jugador: "C",
         dado: 1,
         tablero: [
@@ -87,12 +93,49 @@ test("el servidor rechaza un jugador inválido", async () => {
     expect(response.status).toBe(400);
 });
 
-
 test("el servidor rechaza un tablero inválido", async () => {
     const state = {
+        rulesVersion: 2,
         jugador: "A",
         dado: 2,
         tablero: "hola"
+    };
+
+    const response = await request(app)
+        .post("/move")
+        .send(state);
+
+    expect(response.status).toBe(400);
+});
+
+test("el servidor rechaza una versión de reglas incompatible", async () => {
+    const state = {
+        rulesVersion: 1,
+        jugador: "A",
+        dado: 2,
+        tablero: [
+            ["A1", "", ""],
+            ["", "", ""],
+            ["", "", ""]
+        ]
+    };
+
+    const response = await request(app)
+        .post("/move")
+        .send(state);
+
+    expect(response.status).toBe(400);
+});
+
+test("el servidor rechaza un estado sin versión de reglas", async () => {
+    const state = {
+        jugador: "A",
+        dado: 2,
+        tablero: [
+            ["A1", "", ""],
+            ["", "", ""],
+            ["", "", ""]
+        ]
     };
 
     const response = await request(app)
