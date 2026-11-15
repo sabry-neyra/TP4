@@ -23,8 +23,8 @@ jobs:
       - name: Instalar dependencias del backend
         run: npm ci
 
-      - name: Ejecutar tests (fallo controlado)
-        run: npm test -- --fail
+      - name: Ejecutar tests
+        run: npm test
 
       - name: Instalar dependencias del frontend
         run: npm ci
