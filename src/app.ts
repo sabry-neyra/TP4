@@ -9,6 +9,7 @@ const app = express();
 
 app.use(express.json());
 
+// Configuración de rutas y validaciones del bot.
 function validarMove(req: Request, res: Response, next: NextFunction): void {
     if (req.body.rulesVersion !== 2) {
         res.status(400).json("Error: Versión de reglas incompatible");
