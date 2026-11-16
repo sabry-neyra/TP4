@@ -61,4 +61,4 @@ app.use((
     res.status(500).json("Error 500");
 });
 
-export default app;
+export { app };
