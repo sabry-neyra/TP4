@@ -5,18 +5,27 @@
   "license": "ISC",
   "author": "Sabrina Neyra",
   "type": "commonjs",
-  "main": "src/server.js",
+  "main": "dist/src/server.js",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "start": "node src/server.js",
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/src/server.js",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
     "test": "jest"
   },
   "dependencies": {
     "express": "^5.2.1"
   },
   "devDependencies": {
-    "jest": "^30.5.2",
-    "nodemon": "^3.1.14",
-    "supertest": "^7.3.1"
+    "@types/express": "latest",
+    "@types/jest": "latest",
+    "@types/node": "latest",
+    "@types/supertest": "latest",
+    "jest": "^29.7.0",
+    "supertest": "^7.3.1",
+    "ts-jest": "^29.4.5",
+    "tsx": "latest",
+    "typescript": "latest",
+    "nodemon": "^3.1.14"
   }
 }

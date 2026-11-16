@@ -26,6 +26,12 @@ jobs:
       - name: Ejecutar tests
         run: npm test
 
+      - name: Verificar TypeScript
+        run: npm run typecheck
+
+      - name: Compilar backend
+        run: npm run build
+
       - name: Instalar dependencias del frontend
         run: npm ci
         working-directory: frontend
@@ -33,4 +39,3 @@ jobs:
       - name: Compilar frontend
         run: npm run build
         working-directory: frontend
-

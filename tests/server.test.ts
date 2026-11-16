@@ -1,6 +1,5 @@
-
-const request = require("supertest");
-const app = require("../src/server");
+import request from "supertest";
+import app from "../src/app";
 
 test("el bot recibe el estado y devuelve un movimiento", async () => {
     const state = {
@@ -14,9 +13,7 @@ test("el bot recibe el estado y devuelve un movimiento", async () => {
         ]
     };
 
-    const response = await request(app)
-        .post("/move")
-        .send(state);
+    const response = await request(app).post("/move").send(state);
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({ A1: "S" });
@@ -36,16 +33,10 @@ test("el servidor rechaza una solicitud sin jugador", async () => {
     const state = {
         rulesVersion: 2,
         dado: 1,
-        tablero: [
-            ["A1", "", ""],
-            ["", "", ""],
-            ["", "", ""]
-        ]
+        tablero: [["A1", "", ""], ["", "", ""], ["", "", ""]]
     };
 
-    const response = await request(app)
-        .post("/move")
-        .send(state);
+    const response = await request(app).post("/move").send(state);
 
     expect(response.status).toBe(400);
     expect(response.body).toBe("Error: Falta jugador");
@@ -63,15 +54,10 @@ test("el servidor devuelve los movimientos de varias piezas", async () => {
         ]
     };
 
-    const response = await request(app)
-        .post("/move")
-        .send(state);
+    const response = await request(app).post("/move").send(state);
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({
-        A1: "E",
-        A2: "E"
-    });
+    expect(response.body).toEqual({ A1: "E", A2: "E" });
 });
 
 test("el servidor rechaza un jugador inválido", async () => {
@@ -79,16 +65,10 @@ test("el servidor rechaza un jugador inválido", async () => {
         rulesVersion: 2,
         jugador: "C",
         dado: 1,
-        tablero: [
-            ["C1", "", ""],
-            ["", "", ""],
-            ["", "", ""]
-        ]
+        tablero: [["C1", "", ""], ["", "", ""], ["", "", ""]]
     };
 
-    const response = await request(app)
-        .post("/move")
-        .send(state);
+    const response = await request(app).post("/move").send(state);
 
     expect(response.status).toBe(400);
 });
@@ -101,9 +81,7 @@ test("el servidor rechaza un tablero inválido", async () => {
         tablero: "hola"
     };
 
-    const response = await request(app)
-        .post("/move")
-        .send(state);
+    const response = await request(app).post("/move").send(state);
 
     expect(response.status).toBe(400);
 });
@@ -113,16 +91,10 @@ test("el servidor rechaza una versión de reglas incompatible", async () => {
         rulesVersion: 1,
         jugador: "A",
         dado: 2,
-        tablero: [
-            ["A1", "", ""],
-            ["", "", ""],
-            ["", "", ""]
-        ]
+        tablero: [["A1", "", ""], ["", "", ""], ["", "", ""]]
     };
 
-    const response = await request(app)
-        .post("/move")
-        .send(state);
+    const response = await request(app).post("/move").send(state);
 
     expect(response.status).toBe(400);
 });
@@ -131,16 +103,10 @@ test("el servidor rechaza un estado sin versión de reglas", async () => {
     const state = {
         jugador: "A",
         dado: 2,
-        tablero: [
-            ["A1", "", ""],
-            ["", "", ""],
-            ["", "", ""]
-        ]
+        tablero: [["A1", "", ""], ["", "", ""], ["", "", ""]]
     };
 
-    const response = await request(app)
-        .post("/move")
-        .send(state);
+    const response = await request(app).post("/move").send(state);
 
     expect(response.status).toBe(400);
 });
