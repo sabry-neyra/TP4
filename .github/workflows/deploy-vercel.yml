@@ -86,6 +86,12 @@ jobs:
           URL=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN")
           echo "url=$URL" >> "$GITHUB_OUTPUT"
 
+      - name: Prueba de humo Preview
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          curl --fail --silent --show-error "$PREVIEW_URL/health"
+
       - name: Comentar URL de Preview
         env:
           GH_TOKEN: ${{ github.token }}
@@ -94,17 +100,12 @@ jobs:
           gh pr comment ${{ github.event.pull_request.number }} \
             --body "Preview desplegada: $PREVIEW_URL"
 
-      - name: Prueba de humo Preview
-        env:
-          PREVIEW_URL: ${{ steps.deploy.outputs.url }}
-        run: |
-          curl --fail --silent --show-error "$PREVIEW_URL/health"
-
   production:
     name: Desplegar Producción
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: ci
     runs-on: ubuntu-latest
+    environment: production
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -139,3 +140,4 @@ jobs:
 
       - name: Desplegar Producción
         run: vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+
