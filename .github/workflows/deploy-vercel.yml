@@ -94,6 +94,12 @@ jobs:
           gh pr comment ${{ github.event.pull_request.number }} \
             --body "Preview desplegada: $PREVIEW_URL"
 
+      - name: Prueba de humo Preview
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          curl --fail --silent --show-error "$PREVIEW_URL/health"
+
   production:
     name: Desplegar Producción
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
