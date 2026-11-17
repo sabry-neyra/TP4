@@ -26,4 +26,3 @@ export function chooseMove(state: GameState): Record<string, Direccion> {
     return movements;
 }
 
-const prueba: number = "error";
