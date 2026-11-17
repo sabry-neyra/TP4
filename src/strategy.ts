@@ -16,7 +16,7 @@ export function chooseMove(state: GameState): Record<string, Direccion> {
             const celda = state.tablero[fila][columna];
 
             if (celda.startsWith(state.jugador)) {
-                if (state.dado === 1) movements[celda] = "N";
+                if (state.dado === 1) movements[celda] = "E";
                 else if (state.dado === 2) movements[celda] = "E";
                 else if (state.dado === 3) movements[celda] = "S";
             }
