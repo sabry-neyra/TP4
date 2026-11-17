@@ -45,6 +45,9 @@ jobs:
     if: github.event_name == 'pull_request'
     needs: ci
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -78,7 +81,18 @@ jobs:
         run: vercel build --token="$VERCEL_TOKEN"
 
       - name: Desplegar Preview
-        run: vercel deploy --prebuilt --token="$VERCEL_TOKEN"
+        id: deploy
+        run: |
+          URL=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN")
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Comentar URL de Preview
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PREVIEW_URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "Preview desplegada: $PREVIEW_URL"
 
   production:
     name: Desplegar Producción
