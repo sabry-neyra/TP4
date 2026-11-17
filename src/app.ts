@@ -1,3 +1,4 @@
+
 import express, { Request, Response, NextFunction } from "express";
 import {
     moveHandler,
@@ -9,34 +10,45 @@ const app = express();
 
 app.use(express.json());
 
-// Configuración de rutas y validaciones del bot.
+// Validación de los datos recibidos por el árbitro.
 function validarMove(req: Request, res: Response, next: NextFunction): void {
-    if (req.body.rulesVersion !== 2) {
-        res.status(400).json("Error: Versión de reglas incompatible");
+    const state = req.body;
+
+    if (!state || typeof state !== "object" || Array.isArray(state)) {
+        res.status(400).json("Error: Estado inválido");
         return;
     }
 
-    if (!req.body.jugador) {
+    if (!state.jugador) {
         res.status(400).json("Error: Falta jugador");
         return;
     }
 
-    if (req.body.jugador !== "A" && req.body.jugador !== "B") {
+    if (state.jugador !== "A" && state.jugador !== "B") {
         res.status(400).json("Error: Jugador inválido");
         return;
     }
 
-    if (!req.body.dado) {
+    if (state.dado === undefined || state.dado === null) {
         res.status(400).json("Error: Falta valor del dado");
         return;
     }
 
-    if (!req.body.tablero) {
+    if (
+        !Number.isInteger(state.dado) ||
+        state.dado < 1 ||
+        state.dado > 3
+    ) {
+        res.status(400).json("Error: Valor del dado inválido");
+        return;
+    }
+
+    if (!state.tablero) {
         res.status(400).json("Error: Falta el tablero");
         return;
     }
 
-    if (!Array.isArray(req.body.tablero)) {
+    if (!Array.isArray(state.tablero)) {
         res.status(400).json("Error: Tablero inválido");
         return;
     }

@@ -1,3 +1,4 @@
+
 import request from "supertest";
 import { app } from "../src/app";
 
@@ -86,7 +87,7 @@ test("el servidor rechaza un tablero inválido", async () => {
     expect(response.status).toBe(400);
 });
 
-test("el servidor rechaza una versión de reglas incompatible", async () => {
+test("el servidor acepta una versión de reglas diferente", async () => {
     const state = {
         rulesVersion: 1,
         jugador: "A",
@@ -96,10 +97,11 @@ test("el servidor rechaza una versión de reglas incompatible", async () => {
 
     const response = await request(app).post("/move").send(state);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ A1: "E" });
 });
 
-test("el servidor rechaza un estado sin versión de reglas", async () => {
+test("el servidor acepta un estado sin versión de reglas", async () => {
     const state = {
         jugador: "A",
         dado: 2,
@@ -108,5 +110,6 @@ test("el servidor rechaza un estado sin versión de reglas", async () => {
 
     const response = await request(app).post("/move").send(state);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ A1: "E" });
 });
