@@ -69,7 +69,7 @@ jobs:
         run: npm ci
 
       - name: Instalar Vercel CLI
-        run: npm install --global vercel@latest
+        run: npm install --global vercel@65.16.0
 
       - name: Obtener configuración Preview
         run: vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
@@ -109,7 +109,7 @@ jobs:
         run: npm ci
 
       - name: Instalar Vercel CLI
-        run: npm install --global vercel@latest
+        run: npm install --global vercel@65.16.0
 
       - name: Obtener configuración Producción
         run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
@@ -119,4 +119,3 @@ jobs:
 
       - name: Desplegar Producción
         run: vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
-
