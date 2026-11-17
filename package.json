@@ -1,6 +1,9 @@
 {
   "name": "tarea-tp4",
   "version": "1.0.0",
+  "engines": {
+  "node": "22.x"
+},
   "description": "Bot Express TP4",
   "license": "ISC",
   "author": "Sabrina Neyra",
